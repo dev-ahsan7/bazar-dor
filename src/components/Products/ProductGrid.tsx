@@ -12,7 +12,7 @@ const options: { value: Sort; label: string }[] = [
   { value: 'desc', label: 'দাম: বেশি থেকে কম' },
 ];
 
-const ProductGrid = () => {
+const ProductGrid = ({ category }: { category?: string }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -21,29 +21,51 @@ const ProductGrid = () => {
   const [open, setOpen] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
 
-  // Fetch data
+  // Fetch data (all products, or one category)
   useEffect(() => {
     const controller = new AbortController();
+    let isActive = true;
 
-    fetch('https://api.api-store.workers.dev/api/bazardor/products', {
-      signal: controller.signal,
-    })
-      .then((res) => {
+    const loadProducts = async () => {
+      setLoading(true);
+      setError(false);
+
+      const url = category
+        ? `https://api.api-store.workers.dev/api/bazardor/products?category=${encodeURIComponent(category)}`
+        : 'https://api.api-store.workers.dev/api/bazardor/products';
+
+      try {
+        const res = await fetch(url, { signal: controller.signal });
         if (!res.ok) throw new Error('Failed');
-        return res.json();
-      })
-      .then((data) => {
+
+        const data = await res.json();
+
+        if (!isActive) return;
+
         setProducts(Array.isArray(data) ? data : []);
         setLoading(false);
-      })
-      .catch((err) => {
-        if (err.name === 'AbortError') return;
+      } catch (err) {
+        if (
+          controller.signal.aborted ||
+          (err instanceof Error && err.name === 'AbortError')
+        ) {
+          return;
+        }
+
+        if (!isActive) return;
+
         setError(true);
         setLoading(false);
-      });
+      }
+    };
 
-    return () => controller.abort();
-  }, []);
+    void loadProducts();
+
+    return () => {
+      isActive = false;
+      controller.abort();
+    };
+  }, [category]);
 
   // Close dropdown on outside click or Esc
   useEffect(() => {
@@ -73,12 +95,44 @@ const ProductGrid = () => {
 
   const current = options.find((o) => o.value === sort)!;
 
+  // Category info comes from the first product in the data
+  const first = products[0];
+
   return (
     <section className="px-4 py-5">
-      <h1 className="text-2xl font-bold text-[#1a1a1a]">সব পণ্য</h1>
+      {/* Header: category card, or plain title for "all products" */}
+      {category ? (
+        <div className="flex items-center gap-4 rounded-3xl border border-[#e2e8e2] bg-[#FAFCF9] px-6 py-5">
+          {loading ? (
+            <>
+              <div className="h-12 w-12 animate-pulse rounded-full bg-[#e4e8e4]" />
+              <div className="space-y-2">
+                <div className="h-6 w-28 animate-pulse rounded bg-[#e4e8e4]" />
+                <div className="h-4 w-48 animate-pulse rounded bg-[#e4e8e4]" />
+              </div>
+            </>
+          ) : (
+            <>
+              <span className="text-5xl leading-none">
+                {first?.categoryIcon ?? '🛒'}
+              </span>
+              <div>
+                <h1 className="text-2xl font-bold text-[#1a1a1a]">
+                  {first?.categoryNameBn ?? 'ক্যাটাগরি'}
+                </h1>
+                <p className="text-sm text-gray-600">
+                  {bn(products.length)}টি পণ্যের আজকের দাম ও পরিবর্তন
+                </p>
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <h1 className="text-2xl font-bold text-[#1a1a1a]">সব পণ্য</h1>
+      )}
 
       {/* Count + sort */}
-      <div className="mt-4 mb-4 flex items-center justify-between gap-3">
+      <div className="mt-5 mb-4 flex items-center justify-between gap-3">
         <p className="text-sm text-gray-600">
           {loading
             ? 'লোড হচ্ছে...'
@@ -94,7 +148,7 @@ const ProductGrid = () => {
               onClick={() => setOpen((v) => !v)}
               aria-haspopup="listbox"
               aria-expanded={open}
-              className="flex items-center gap-1.5 rounded-xl border border-[#e2e8e2] bg-[#FAFCF9] px-3 py-1.5 text-sm font-medium text-[#1a1a1a] shadow-sm transition hover:border-[#05893E]/40"
+              className="flex items-center gap-1.5 rounded-xl border border-[#e2e8e2] bg-white px-3 py-1.5 text-sm font-medium text-[#1a1a1a] transition hover:border-[#05893E]/40"
             >
               {current.label}
               <span className="text-[10px]">{open ? '▴' : '▾'}</span>
@@ -139,6 +193,10 @@ const ProductGrid = () => {
       {error ? (
         <p className="rounded-2xl border border-[#e2e8e2] bg-[#FAFCF9] p-6 text-center text-sm text-gray-600">
           পণ্যের তথ্য লোড করা যায়নি। একটু পরে আবার চেষ্টা করুন।
+        </p>
+      ) : !loading && sorted.length === 0 ? (
+        <p className="rounded-2xl border border-[#e2e8e2] bg-[#FAFCF9] p-6 text-center text-sm text-gray-600">
+          এই ক্যাটাগরিতে কোনো পণ্য পাওয়া যায়নি।
         </p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
