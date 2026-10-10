@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 const Hero = () => {
   const date = new Date().toLocaleDateString('bn-BD', {
@@ -26,12 +25,12 @@ const Hero = () => {
               বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
             </p>
 
-            <Link
-              href="/products"
+            <a
+              href="#products"
               className="mt-7 inline-block rounded-lg border border-[#047a37] bg-[#05893E] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_6px_14px_rgba(5,137,62,0.35)] transition hover:bg-[#047a37]"
             >
               সব পণ্য দেখুন
-            </Link>
+            </a>
           </div>
 
           {/* Image (placeholder, swap later) */}

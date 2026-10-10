@@ -12,7 +12,16 @@ export type Product = {
   lastWeek: number;
   lastMonth: number;
   change: { dir: string; pct: number };
+  markets?: Market[];
 };
+
+export type Market = {
+  market: string;
+  division: string;
+  min: number;
+  max: number;
+};
+
 
 const units: Record<string, string> = {
   kg: 'কেজি',

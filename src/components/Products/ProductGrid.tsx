@@ -99,7 +99,7 @@ const ProductGrid = ({ category }: { category?: string }) => {
   const first = products[0];
 
   return (
-    <section className="px-4 py-5">
+    <section id="products" className="px-4 py-5">
       {/* Header: category card, or plain title for "all products" */}
       {category ? (
         <div className="flex items-center gap-4 rounded-3xl border border-[#e2e8e2] bg-[#FAFCF9] px-6 py-5">
