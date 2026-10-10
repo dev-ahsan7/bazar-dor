@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
-
+import toast from 'react-hot-toast';
 
 type Props = {
   variant?: 'desktop' | 'mobile';
@@ -42,10 +42,12 @@ const UserInfo = ({ variant = 'desktop', onNavigate }: Props) => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          setOpen(false);
-          onNavigate?.();
+          toast.error('সফলভাবে সাইন আউট হয়েছে');
           router.push('/');
           router.refresh();
+        },
+        onError: () => {
+          toast.error('সাইন আউট করা যায়নি। আবার চেষ্টা করুন।');
         },
       },
     });
@@ -138,7 +140,7 @@ const UserInfo = ({ variant = 'desktop', onNavigate }: Props) => {
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#05893E] text-sm font-bold text-white">
           {initial}
         </span>
-        <span className="max-w-[120px] truncate text-sm font-semibold text-[#1a1a1a]">
+        <span className="max-w-30 truncate text-sm font-semibold text-[#1a1a1a]">
           {name}
         </span>
         <span className="text-[10px] text-gray-600">{open ? '▴' : '▾'}</span>

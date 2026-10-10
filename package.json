@@ -13,11 +13,14 @@
     "@gravity-ui/icons": "^2.22.0",
     "@heroui/react": "^3.2.6",
     "@heroui/styles": "^3.2.6",
+    "add": "^2.0.9",
     "better-auth": "^1.7.7",
+    "git": "^0.1.5",
     "mongodb": "^7.7.0",
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "react-hot-toast": "^2.6.1",
     "react-marquee-text": "^1.0.6"
   },
   "devDependencies": {

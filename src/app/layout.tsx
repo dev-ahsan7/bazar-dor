@@ -4,7 +4,7 @@ import './globals.css';
 import Header from '@/components/Navigtaion/Header';
 import Marquee from '@/components/Marquee/Marquee';
 import Footer from '@/components/Navigtaion/Footer';
-import { Toast } from '@heroui/react';
+import { Toaster } from 'react-hot-toast';
 
 const hindiSiliguri = Hind_Siliguri({
   subsets: ['latin', 'bengali'],
@@ -25,7 +25,17 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       className={`${hindiSiliguri.className} scroll-smooth  h-full antialiased`}
     >
       <body className="min-h-full bg-[#F0F5F0] flex flex-col">
-        <Toast.Provider />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              borderRadius: '12px',
+              padding: '12px 16px',
+              fontSize: '15px',
+              color: '#1a1a1a',
+            },
+          }}
+        />
         <Header />
         <Marquee />
         <main className="mx-auto w-full max-w-7xl">{children}</main>

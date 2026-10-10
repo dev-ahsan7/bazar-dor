@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { FieldError, Form, Input, Label, TextField } from '@heroui/react';
 import { authClient } from '@/lib/auth-client';
 
@@ -11,6 +13,7 @@ const inputClass =
 const labelClass = 'text-sm font-medium text-[#1a1a1a]';
 
 const SignInPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -28,18 +31,37 @@ const SignInPage = () => {
     try {
       const { error } = await authClient.signIn.email({
         ...user,
-        callbackURL: '/',
         rememberMe: true,
       });
 
       if (error) {
         setError('ইমেইল বা পাসওয়ার্ড সঠিক নয়।');
+        return;
       }
+
+      toast.success('সফলভাবে সাইন ইন হয়েছে');
+      router.push('/');
+      router.refresh();
     } catch {
       setError('সাইন ইন করা যায়নি। আবার চেষ্টা করুন।');
+      toast.error('সাইন ইন করা যায়নি');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSignUpwithGoogle = async () => {
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: '/',
+    });
+  };
+
+  const handleSignUpwithGitHub = async () => {
+    await authClient.signIn.social({
+      provider: 'github',
+      callbackURL: '/',
+    });
   };
 
   return (
@@ -108,10 +130,19 @@ const SignInPage = () => {
           </button>
         </Form>
 
+        {/* Google button */}
+        <button onClick={handleSignUpwithGoogle}>
+          Google দিয়ে চালিয়ে যান
+        </button>
+
+        <button onClick={handleSignUpwithGitHub}>
+          GitHub দিয়ে চালিয়ে যান
+        </button>
+
         <p className="mt-5 text-center text-sm text-[#1a1a1a]">
           অ্যাকাউন্ট নেই?{' '}
           <Link
-            href="/signup"
+            href="/sign-up"
             className="font-medium text-[#05893E] hover:underline"
           >
             সাইন আপ করুন

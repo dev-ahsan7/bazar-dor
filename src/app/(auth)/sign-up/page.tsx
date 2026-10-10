@@ -8,11 +8,11 @@ import {
   Input,
   Label,
   TextField,
-  toast,
 } from '@heroui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const inputClass =
   'w-full rounded-xl border border-[#e2e8e2] bg-[#FAFCF9] px-3.5 py-2.5 text-sm text-[#1a1a1a] placeholder:text-gray-500 outline-none shadow-none transition focus:border-[#05893E] focus:ring-2 focus:ring-[#05893E]/15';
@@ -44,18 +44,27 @@ const SignUpPage = () => {
     setSubmitting(false);
 
     if (error) {
-      toast.danger('অ্যাকাউন্ট তৈরি করা যায়নি', {
-        description: error.message || 'একটু পরে আবার চেষ্টা করুন।',
-      });
+      toast.error('অ্যাকাউন্ট তৈরি করা যায়নি', {});
       return;
     }
 
     if (data) {
-      toast.success('অ্যাকাউন্ট তৈরি হয়েছে', {
-        description: `স্বাগতম, ${name}!`,
-      });
+      toast.success('অ্যাকাউন্ট তৈরি হয়েছে', {});
       router.push('/');
     }
+  };
+
+  const handleSignUpwithGoogle = async () => {
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: '/',
+    });
+  };
+  const handleSignUpwithGitHub = async () => {
+    await authClient.signIn.social({
+      provider: 'github',
+      callbackURL: '/',
+    });
   };
 
   return (
@@ -152,6 +161,15 @@ const SignUpPage = () => {
             </Link>
           </p>
         </Form>
+
+        {/* Google button */}
+        <button onClick={handleSignUpwithGoogle}>
+          Google দিয়ে চালিয়ে যান
+        </button>
+
+        <button onClick={handleSignUpwithGitHub}>
+          GitHub দিয়ে চালিয়ে যান
+        </button>
 
         <p className="mt-6 text-center text-sm text-gray-500">
           <Link href="/" className="hover:text-[#05893E]">
