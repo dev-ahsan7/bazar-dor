@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Navlinks from './Navlinks';
 import { Category } from './type';
 import MobileMenu from './MobileMenu';
+import UserInfo from './UserIinfo';
 
 const getCategories = async (): Promise<Category[]> => {
   const res = await fetch(
@@ -47,19 +48,9 @@ const Header = async () => {
           </Link>
 
           {/* Desktop buttons */}
-          <div className="hidden items-center gap-3 md:flex">
-            <button
-              type="button"
-              className="rounded-lg px-4 py-2 text-sm font-semibold text-[#1a1a1a] transition hover:bg-black/5"
-            >
-              সাইন ইন
-            </button>
-            <button
-              type="button"
-              className="rounded-xl border border-[#047a37] bg-[#05893E] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_6px_14px_rgba(5,137,62,0.35)] transition hover:bg-[#047a37]"
-            >
-              সাইন আপ
-            </button>
+
+          <div className="hidden md:block">
+            <UserInfo />
           </div>
 
           {/* Mobile hamburger */}

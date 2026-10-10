@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Bars, ChevronRight, Xmark } from '@gravity-ui/icons';
 import { Category } from './type';
+import UserInfo from './UserIinfo';
 
 type Props = {
   categories: Category[];
@@ -130,21 +131,8 @@ const MobileMenu = ({ categories, date }: Props) => {
         </div>
 
         {/* Auth buttons */}
-        <div className="flex flex-col gap-3 border-t border-[#e4e4e4] px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-          <button
-            type="button"
-            onClick={close}
-            className="w-full rounded-xl border border-[#e4e4e4] bg-white px-5 py-3 text-sm font-semibold text-[#1a1a1a] transition hover:bg-black/5"
-          >
-            সাইন ইন
-          </button>
-          <button
-            type="button"
-            onClick={close}
-            className="w-full rounded-xl border border-[#047a37] bg-[#05893E] px-5 py-3 text-sm font-semibold text-white shadow-[0_6px_14px_rgba(5,137,62,0.35)] transition hover:bg-[#047a37]"
-          >
-            সাইন আপ
-          </button>
+        <div className="border-t  border-[#e4e4e4] px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <UserInfo variant="mobile" onNavigate={close} />
         </div>
       </aside>
     </div>
