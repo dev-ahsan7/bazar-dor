@@ -31,8 +31,8 @@ const ProductGrid = ({ category }: { category?: string }) => {
       setError(false);
 
       const url = category
-        ? `https://api.api-store.workers.dev/api/bazardor/products?category=${encodeURIComponent(category)}`
-        : 'https://api.api-store.workers.dev/api/bazardor/products';
+        ? `https://api.abcz.workers.dev/api/bazardor/products?category=${encodeURIComponent(category)}`
+        : 'https://api.abcz.workers.dev/api/bazardor/products';
 
       try {
         const res = await fetch(url, { signal: controller.signal });

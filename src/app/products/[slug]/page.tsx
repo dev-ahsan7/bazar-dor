@@ -3,9 +3,7 @@ import { notFound } from 'next/navigation';
 import { bn, getUnit, type Product } from '@/lib/product';
 
 const getProduct = async (slug: string) => {
-  const res = await fetch(
-    'https://api.api-store.workers.dev/api/bazardor/products',
-  );
+  const res = await fetch('https://api.abcz.workers.dev/api/bazardor/products');
   if (!res.ok) return null;
 
   const products: Product[] = await res.json();
