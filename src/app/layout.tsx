@@ -5,6 +5,7 @@ import Header from '@/components/Navigtaion/Header';
 import Marquee from '@/components/Marquee/Marquee';
 import Footer from '@/components/Navigtaion/Footer';
 import { Toaster } from 'react-hot-toast';
+import NextTopLoader from 'nextjs-toploader';
 
 const hindiSiliguri = Hind_Siliguri({
   subsets: ['latin', 'bengali'],
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       className={`${hindiSiliguri.className} scroll-smooth  h-full antialiased`}
     >
       <body className="min-h-full bg-[#F0F5F0] flex flex-col">
+        <NextTopLoader color="#05893E" height={3} showSpinner={false} />
         <Toaster
           position="top-center"
           toastOptions={{
