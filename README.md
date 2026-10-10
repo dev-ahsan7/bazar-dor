@@ -11,7 +11,9 @@ _Daily market prices of essential goods across Bangladesh, at a glance._
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Better Auth](https://img.shields.io/badge/Better_Auth-05893E?style=for-the-badge)
 
-[Live Demo](#) · [Report a Bug](../../issues) · [Request a Feature](../../issues)
+🔗 **[Live Demo → bazar-dor-eqq6.vercel.app](https://bazar-dor-eqq6.vercel.app/)**
+
+[Live Demo](https://bazar-dor-eqq6.vercel.app/) · [Report a Bug](../../issues) · [Request a Feature](../../issues)
 
 </div>
 
@@ -23,6 +25,7 @@ _Daily market prices of essential goods across Bangladesh, at a glance._
 
 Prices change often, and they are different in every market. BazarDor puts today's price, the change since yesterday, and a market-by-market comparison in one clean place, so shoppers can see at a glance where prices are rising, where they are falling, and which market is cheapest.
 
+🌐 **Live site:** [https://bazar-dor-eqq6.vercel.app/](https://bazar-dor-eqq6.vercel.app/)
 
 ## ✨ Key Features
 
